@@ -27,4 +27,9 @@ export class RevisionController implements interfaces.Controller {
         return this.revisionService.getLastRevision();
     }
 
+    @httpGet("/next")
+    private getNextRevision(@request() req: express.Request, @response() res: express.Response): Promise<Revision> {
+        return this.revisionService.getNextRevision(req.query.revisionId as string)
+    }
+
 }

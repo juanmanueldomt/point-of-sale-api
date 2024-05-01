@@ -2,6 +2,7 @@ import {Revision} from "../entity/Revision";
 import {AppDataSource} from "../data-source";
 import {injectable} from "inversify";
 import {LessThan} from "typeorm";
+import * as _ from 'lodash';
 
 @injectable()
 export class RevisionService {
@@ -48,5 +49,9 @@ export class RevisionService {
         revision.isSetMoney = revisionIn.isSetMoney
         revision.revisionTime = new Date()
         return AppDataSource.manager.save(revision)
+    }
+
+    public async getNextRevision(id: string): Promise<Revision> {
+        return AppDataSource.manager.findOne(Revision, {where: {id: _.toNumber(id) + 1}})
     }
 }
